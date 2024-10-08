@@ -1,4 +1,4 @@
-# Casa Inteligente/Smart Home
+# Smart Home
 
 > Projeto desenvolvido na matéria de Linguagem de Programação e Paradigmas do curso de Sistemas de Informação da UNIDAVI.
 
