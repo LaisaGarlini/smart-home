@@ -26,6 +26,7 @@ interface EstadoDispositivo {
 
 const App: React.FC = () => {
   const [dispositivo, setDispositivo] = useState<EstadoDispositivo>({
+    // inicializa o estado dos dispositivos com os valores padrão
     luzSalaOn: false,
     luzCozinhaOn: false,
     luzQuartoOn: false,
@@ -43,13 +44,16 @@ const App: React.FC = () => {
   });
 
   useEffect(() => {
+    // recebe o estado inicial dos dispositivos do servidor
     socket.on('estadoInicial', (estadoDispositivos: EstadoDispositivo) => {
       setDispositivo(estadoDispositivos);
     });
 
+    // recebe atualizações do estado
     socket.on('estadoAltera', (novoEstado: EstadoDispositivo) => {
       setDispositivo(novoEstado);
 
+      // exibe notificação se a temperatura da geladeira estiver acima de 5°C
       if (novoEstado.geladeiraTemp > 5) {
         toast.error('A temperatura da geladeira está acima de 5°C!');
       }
@@ -61,6 +65,7 @@ const App: React.FC = () => {
     };
   }, []);
 
+  // funções que enviam comandos para o servidor
   const acenderLuzSala = () => socket.emit('acenderLuzSala');
   const acenderLuzCozinha = () => socket.emit('acenderLuzCozinha');
   const acenderLuzQuarto = () => socket.emit('acenderLuzQuarto');
@@ -76,6 +81,7 @@ const App: React.FC = () => {
   const ajustarVelVentilador = (velocidade: number) => socket.emit('ajustarVelVentilador', velocidade);
   const abrirCortina = () => socket.emit('abrirCortina');
 
+  // interface
   return (
     <div className='casa h-screen overflow-y-auto overflow-x-hidden flex flex-col justify-center'>
       <div className='h-[7%] fixed top-0 w-full flex justify-center mt-2'>
@@ -85,6 +91,7 @@ const App: React.FC = () => {
         <div className='w-[28%] bg-purple-200 flex flex-col items-center justify-between rounded-3xl shadow-lg shadow-purple-400 py-3'>
           <h1 className='text-2xl font-semibold mt-1'>Sala de Estar</h1>
           <div className='luz w-full flex flex-col items-center'>
+            {/* componente Botao para um codigo mais limpo */}
             <Botao 
               onClick={acenderLuzSala} 
               isOn={dispositivo.luzSalaOn} 
@@ -92,6 +99,7 @@ const App: React.FC = () => {
               textOff="Desligar a Luz" 
               color="bg-purple-400"
             />
+            {/* componente Imagem para um codigo mais limpo */}
             <Imagem 
               isOn={dispositivo.luzSalaOn}
               imageOn='luz.png'

@@ -14,6 +14,7 @@ const io = new Server(server, {
     }
 });
 
+// define o estado inicial dos dispositivos
 let dispositivos = {
     luzSalaOn: false,
     luzCozinhaOn: false,
@@ -34,11 +35,13 @@ let dispositivos = {
 io.on('connection', (socket) => {
     console.log('Cliente conectado', socket.id);
 
+    // envia o estado inicial dos dispositivos para o cliente
     socket.emit('estadoInicial', dispositivos);
 
+    // lida com eventos de alteração no estado dos dispositivos e envia as atualizações para todos os clientes conectados
     socket.on('acenderLuzSala', () => {
-        dispositivos.luzSalaOn = !dispositivos.luzSalaOn;
-        io.emit('estadoAltera', dispositivos);
+        dispositivos.luzSalaOn = !dispositivos.luzSalaOn; // alterna o estado da luz
+        io.emit('estadoAltera', dispositivos); // emite o novo estado para todos os clientes
       });
     
       socket.on('acenderLuzCozinha', () => {

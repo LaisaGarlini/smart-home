@@ -10,6 +10,7 @@ const root = ReactDOM.createRoot(
 );
 root.render(
   <React.StrictMode>
+    {/* Toaster é usado para mostrar uma mensagem */}
     <Toaster position="top-center" richColors closeButton/>
     <App />
   </React.StrictMode>
